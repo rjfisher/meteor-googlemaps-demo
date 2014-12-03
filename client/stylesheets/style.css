@@ -8,6 +8,9 @@
   float: left;
   width: 75%;
   height: 800px;
+  border: 1px;
+  border-color: black;
+  margin: 10px;
 }
 
 #location-div {

@@ -1,6 +1,11 @@
 Meteor.publish('locations', function(bounds) {
-  if (bounds && bounds.latMin && bounds.latMax && bounds.lngMin && bounds.lngMax) {
-    return Locations.find({lat: {$gt: bounds.latMin, $lt: bounds.latMax},
-                           lng: {$gt: bounds.lngMin, $lt: bounds.lngMax}});
-  }
+  check(bounds, {
+    latMin: Number,
+    latMax: Number,
+    lngMin: Number,
+    lngMax: Number
+  });
+
+  return Locations.find({lat: {$gt: bounds.latMin, $lt: bounds.latMax},
+    lng: {$gt: bounds.lngMin, $lt: bounds.lngMax}}, { sort: {name: 1} });
 });
