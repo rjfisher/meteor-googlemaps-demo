@@ -21,6 +21,14 @@ gmaps = {
       icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
     });
 
+    google.maps.event.addListener(gMarker, 'click', function() {
+      if (Session.get('selected') === marker.id) {
+        Session.set('selected', null);
+      } else {
+        Session.set('selected', marker.id);
+      }
+    });
+
     this.latLngs.push(gLatLng);
     this.markers.push(gMarker);
     this.markerData.push(marker);
