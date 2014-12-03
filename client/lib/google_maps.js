@@ -25,6 +25,18 @@ gmaps = {
     return gMarker;
   },
 
+  checkMarkers: function() {
+    var _this = this;
+
+    _.each(this.markers, function(marker) {
+      if ((marker.position.lat() > _this.bounds.latMax) ||
+         (marker.position.lat() < _this.bounds.latMin) ||
+         (marker.position.lng() > _this.bounds.lngMax) ||
+         (marker.position.lng() < _this.bounds.lngMin))
+         _this.deleteMarker(marker);
+    });
+  },
+
   clearMarkers: function() {
     _.each(this.markers, function(marker) {
       marker.setMap(null);
@@ -67,6 +79,7 @@ gmaps = {
         lngMax: b.getNorthEast().lng()
       };
 
+      this.bounds = bounds;
       Session.set('bounds', bounds);
     });
 
