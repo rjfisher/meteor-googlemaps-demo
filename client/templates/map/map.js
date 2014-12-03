@@ -8,6 +8,8 @@ Template.map.rendered = function() {
     if (!bounds)
       return;
 
+    gmaps.clearMarkers();
+
     var locations = Locations.find({lat: {$gt: bounds.latMin, $lt: bounds.latMax},
                                     lng: {$gt: bounds.lngMin, $lt: bounds.lngMax}}).fetch();
 

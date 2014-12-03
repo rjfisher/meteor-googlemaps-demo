@@ -15,7 +15,7 @@ gmaps = {
       position: gLatLng,
       map: this.map,
       title: marker.title,
-      animation: google.maps.Animation.DROP,
+      //animation: google.maps.Animation.DROP,
       icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
     });
 
