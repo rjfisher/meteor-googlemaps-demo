@@ -9,3 +9,5 @@ iron:router
 sacha:spin
 mizzao:bootstrap-3
 chrismbeckett:toastr
+multiply:iron-router-progress
+
