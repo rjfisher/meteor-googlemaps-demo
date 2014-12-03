@@ -4,7 +4,12 @@ Template.map.rendered = function() {
   }
 
   Deps.autorun(function() {
-    var locations = Locations.find().fetch();
+    var bounds = Session.get('bounds');
+    if (!bounds)
+      return;
+
+    var locations = Locations.find({lat: {$gt: bounds.latMin, $lt: bounds.latMax},
+                                    lng: {$gt: bounds.lngMin, $lt: bounds.lngMax}}).fetch();
 
     if (locations) {
       _.each(locations, function(location) {

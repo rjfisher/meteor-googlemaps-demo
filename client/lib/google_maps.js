@@ -15,7 +15,7 @@ gmaps = {
       position: gLatLng,
       map: this.map,
       title: marker.title,
-      //animation: google.maps.Animation.DROP,
+      animation: google.maps.Animation.DROP,
       icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
     });
 
@@ -57,6 +57,18 @@ gmaps = {
       document.getElementById('map-canvas'),
       mapOptions
     );
+
+    google.maps.event.addListener(map, 'idle', function() {
+      var b = map.getBounds();
+      var bounds = {
+        latMin: b.getSouthWest().lat(),
+        latMax: b.getNorthEast().lat(),
+        lngMin: b.getSouthWest().lng(),
+        lngMax: b.getNorthEast().lng()
+      };
+
+      Session.set('bounds', bounds);
+    });
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
