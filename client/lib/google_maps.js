@@ -9,6 +9,8 @@ gmaps = {
 
   markerData: [],
 
+  locationsHandler: false,
+
   addMarker: function(marker) {
     var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
     var gMarker = new google.maps.Marker({
@@ -47,6 +49,20 @@ gmaps = {
     this.markerData = [];
   },
 
+  deleteMarker: function(marker) {
+    var _this = this;
+
+    _.each(this.markers, function(storedMarker, index) {
+      if (storedMarker === marker) {
+        storedMarker.setMap(null);
+        _this.markers.splice(index, 1);
+        _this.latLngs.splice(index, 1);
+        _this.markerData.splice(index, 1);
+        return;
+      }
+    });
+  },
+
   markerExists: function(key, val) {
     _.each(this.markerData, function(marker) {
       if (marker[key] === val) {
@@ -58,6 +74,8 @@ gmaps = {
   },
 
   initialize: function() {
+    var _this = this;
+
     var mapOptions = {
       zoom: 16,
       minZoom: 12,
@@ -79,8 +97,13 @@ gmaps = {
         lngMax: b.getNorthEast().lng()
       };
 
-      this.bounds = bounds;
-      Session.set('bounds', bounds);
+      _this.bounds = bounds;
+
+      var newlocationsHandler = Meteor.subscribe('locations', bounds);
+      if (_this.locationsHandler)
+        _this.locationsHandler.stop();
+
+      _this.locationsHandler = newlocationsHandler;
     });
 
     if (navigator.geolocation) {

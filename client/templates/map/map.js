@@ -4,14 +4,9 @@ Template.map.rendered = function() {
   }
 
   Deps.autorun(function() {
-    var bounds = Session.get('bounds');
-    if (!bounds)
-      return;
-
     gmaps.checkMarkers();
-    
-    var locations = Locations.find({lat: {$gt: bounds.latMin, $lt: bounds.latMax},
-                                    lng: {$gt: bounds.lngMin, $lt: bounds.lngMax}}).fetch();
+
+    var locations = Locations.find().fetch();
 
     if (locations) {
       _.each(locations, function(location) {
