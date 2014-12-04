@@ -1,5 +1,26 @@
 <template name="map">
-  <div id="map">
-    <div id="map-canvas"></div>
+  <div class="map row">
+    <div class="col-md-12">
+      <form>
+        <div class="row">
+          <div class="col-sm-9">
+            <div class="form-group">
+              <input class="form-control" id="name" name="name" type="text" placeholder="Location Name">
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <button type="submit" class="btn btn-default btn-md">Search</button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="row">
+        <div class="col-sm-12">
+          <h4>Number of Locations on Screen: {{numLocations}}</h4>
+        </div>
+      </div>
+      <div id="map-canvas" style="position: relative; background-color: rgb(229, 227, 223); overflow: hidden;"></div>
+    </div>
   </div>
 </template>

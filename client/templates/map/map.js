@@ -7,6 +7,7 @@ Template.map.rendered = function() {
     gmaps.checkMarkers();
 
     var locations = Locations.find().fetch();
+    console.log(Locations.find().count());
 
     if (locations) {
       _.each(locations, function(location) {
@@ -26,6 +27,29 @@ Template.map.rendered = function() {
     }
   });
 }
+
+Template.map.helpers({
+  numLocations: function() {
+    return Locations.find().count();
+  }
+});
+
+Template.map.events({
+  'submit form': function(e) {
+    e.preventDefault();
+
+    var locationName = $(e.target).find('[name=name]').val();
+
+    var result = Locations.findOne({name: locationName});
+
+    if(!result) {
+      toastr.warning('Your location was not found.');
+      return;
+    }
+
+    gmaps.centerMap(result.lat, result.lng);
+  }
+});
 
 Template.map.destroyed = function() {
   Session.set('map', false);

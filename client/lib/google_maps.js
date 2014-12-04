@@ -35,6 +35,14 @@ gmaps = {
     return gMarker;
   },
 
+  centerMap: function(lat, lng) {
+    if ((!lat) || (!lng))
+      return;
+
+    var latLng = new google.maps.LatLng(lat, lng);
+    this.map.setCenter(latLng);
+  },
+
   checkMarkers: function() {
     var _this = this;
 
@@ -85,7 +93,7 @@ gmaps = {
     var _this = this;
 
     var mapOptions = {
-      zoom: 16,
+      zoom: 22,
       minZoom: 12,
       center: new google.maps.LatLng(40.044171, -76.313411),
       mapTypeId: google.maps.MapTypeId.ROADMAP
