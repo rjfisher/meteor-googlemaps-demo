@@ -25,3 +25,12 @@
 .unselected {
   color: black;
 }
+
+@media (max-width: 600px) {
+  #home-div {
+    height: 250px;
+  }
+  #map-canvas {
+    height: 200px;
+  }
+}
