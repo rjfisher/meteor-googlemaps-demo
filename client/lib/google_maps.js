@@ -10,6 +10,7 @@ gmaps = {
   markerData: [],
 
   locationsHandler: false,
+  itemsHandler: false,
 
   addMarker: function(marker) {
     var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
@@ -115,11 +116,24 @@ gmaps = {
 
       _this.bounds = bounds;
 
-      var newlocationsHandler = Meteor.subscribe('locations', bounds);
+      var queryBounds = {
+        a: {x: bounds.lngMin, y: bounds.latMax},
+        b: {x: bounds.lngMax, y: bounds.latMax},
+        c: {x: bounds.lngMax, y: bounds.latMin},
+        d: {x: bounds.lngMin, y: bounds.latMin}
+      };
+
+      var newlocationsHandler = Meteor.subscribe('locations', queryBounds);
       if (_this.locationsHandler)
         _this.locationsHandler.stop();
 
       _this.locationsHandler = newlocationsHandler;
+
+      var newitemsHandler = Meteor.subscribe('items', queryBounds);
+      if (_this.itemsHandler)
+        _this.itemsHandler.stop();
+
+      _this.itemsHandler = newitemsHandler;
     });
 
     if (navigator.geolocation) {

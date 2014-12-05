@@ -6,8 +6,8 @@ Template.map.rendered = function() {
   Deps.autorun(function() {
     gmaps.checkMarkers();
 
-    var locations = Locations.find().fetch();
-    console.log(Locations.find().count());
+    var locations = Locations.find({}).fetch();
+    console.log(Locations.find({}).count());
 
     if (locations) {
       _.each(locations, function(location) {
@@ -15,8 +15,8 @@ Template.map.rendered = function() {
           if (!gmaps.markerExists('id', location._id)) {
               var marker = {
                 id: location._id,
-                lat: location.lat,
-                lng: location.lng,
+                lat: location.loc.lat,
+                lng: location.loc.lon,
                 title: location.name
               };
 
@@ -30,7 +30,7 @@ Template.map.rendered = function() {
 
 Template.map.helpers({
   numLocations: function() {
-    return Locations.find().count();
+    return Locations.find({}).count();
   }
 });
 

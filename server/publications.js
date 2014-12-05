@@ -1,17 +1,11 @@
 Meteor.publish('locations', function(bounds) {
-  check(bounds, {
-    latMin: Number,
-    latMax: Number,
-    lngMin: Number,
-    lngMax: Number
-  });
+  check(bounds, Object);
 
-  return Locations.find({lat: {$gt: bounds.latMin, $lt: bounds.latMax},
-    lng: {$gt: bounds.lngMin, $lt: bounds.lngMax}}, { sort: {name: 1} });
+  return Locations.find({loc: {$within: {$polygon: bounds}}});
 });
 
-Meteor.publish('items', function(ids) {
-  check(ids, Array);
+Meteor.publish('items', function(bounds) {
+  check(bounds, Object);
 
-  return Items.find({locationId: {$in: ids}}, {sort: {rating: -1}, limit: 25 });
+  return Items.find({loc: {$within: {$polygon: bounds}}});
 });
