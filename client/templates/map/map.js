@@ -3,31 +3,18 @@ Template.map.rendered = function() {
     gmaps.initialize();
   }
 
-  Deps.autorun(function() {
-    gmaps.checkMarkers();
-
-    var locations = Locations.find({}).fetch();
-    console.log(Locations.find({}).count());
-
-    if (locations) {
-      _.each(locations, function(location) {
-        if(location) {
-          if (!gmaps.markerExists('id', location._id)) {
-              var marker = {
-                id: location._id,
-                lat: location.loc.lat,
-                lng: location.loc.lon,
-                title: location.name
-              };
-
-              gmaps.addMarker(marker);
-          }
-        }
-      });
-    }
-  });
+  var liveMarkers = LiveMaps.addMarkersToMap(gmaps.map, [{
+	  cursor: Locations.find(),
+	  transform: function(location) {
+	    return {
+	      title: location.name,
+              position: new google.maps.LatLng(location.loc.lat, location.loc.lon),
+	      animation: google.maps.Animation.DROP,
+              icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+	    };
+	  }
+	}]);
 }
-
 Template.map.helpers({
   numLocations: function() {
     return Locations.find({}).count();

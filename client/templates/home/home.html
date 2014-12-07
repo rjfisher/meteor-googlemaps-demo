@@ -1,14 +1,10 @@
 <template name="home">
   <div class="container">
     <h1>GMaps Demo</h1>
-
-    {{> map}}
-
-    <!--<h3>Number of Items = {{numItems}}</h3>
-    <ul class="items">
-      {{#each items}}
-        {{> item}}
-      {{/each}}
-    </ul>-->
+    <div id="main" class="row-fluid">
+      {{#momentum plugin='iron-router' options=transition}}
+        {{> yield}}
+      {{/momentum}}
+    </div>
   </div>
 </template>

@@ -43,9 +43,13 @@ minimongo@1.0.5
 mizzao:bootstrap-3@3.3.1
 mobile-status-bar@1.0.1
 mongo@1.0.8
+mrt:live-maps@0.0.4
 multiply:iron-router-progress@1.0.0
 observe-sequence@1.0.3
 ordered-dict@1.0.1
+percolate:momentum-iron-router@0.7.0
+percolate:momentum@0.7.0
+percolate:velocityjs@1.1.0
 random@1.0.1
 reactive-dict@1.0.4
 reactive-var@1.0.3
