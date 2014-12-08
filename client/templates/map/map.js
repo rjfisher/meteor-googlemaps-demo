@@ -15,6 +15,7 @@ Template.map.rendered = function() {
 	  }
 	}]);
 }
+
 Template.map.helpers({
   numLocations: function() {
     return Locations.find({}).count();
@@ -34,7 +35,7 @@ Template.map.events({
       return;
     }
 
-    gmaps.centerMap(result.lat, result.lng);
+    gmaps.centerMap(result.loc.lat, result.loc.lon);
   }
 });
 
