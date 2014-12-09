@@ -51,7 +51,8 @@ liveMarkers = function(map, cursor) {
       options.map = map;
     }
     var marker = new google.maps.Marker(options);
-    google.maps.event.addListener(marker, 'click', onClick(doc._id));
+    marker.id = doc._id;
+    google.maps.event.addListener(marker, 'click', onClick);
     return markers[doc._id] = marker;
   };
   removeMarker = function(doc) {

@@ -1,11 +1,13 @@
-Meteor.publish('locations', function(bounds) {
-  check(bounds, Object);
+Meteor.publish('locations', function(query) {
+  check(query, Object);
 
-  return Locations.find({loc: {$within: {$polygon: bounds}}});
-});
+  var bounds = query.bounds;
+  if (bounds)
+    return Locations.find({loc: {$within: {$polygon: bounds}}});
 
-Meteor.publish('items', function(bounds) {
-  check(bounds, Object);
+  var id = query.id;
+  if (id)
+    return Locations.find({_id: id});
 
-  return Items.find({loc: {$within: {$polygon: bounds}}});
+  return Locations.find();
 });

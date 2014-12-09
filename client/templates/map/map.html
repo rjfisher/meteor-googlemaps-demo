@@ -3,24 +3,18 @@
     <div class="col-md-12">
       <form>
         <div class="row">
-          <div class="col-sm-9">
-            <div class="form-group">
-              <input class="form-control" id="name" name="name" type="text" placeholder="Location Name">
-            </div>
+          <div class="col-sm-11">
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-1">
             <div class="form-group">
-              <button type="submit" class="btn btn-default btn-md">Search</button>
+              <button type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              </button>
             </div>
           </div>
         </div>
       </form>
-      <div class="row">
-        <div class="col-sm-12">
-          <h4>Number of Locations on Screen: {{numLocations}}</h4>
-	  <a href="{{pathFor 'about'}}">About</a>
-        </div>
-      </div>
+      <input id="pac-input" class="controls" type="text" placeholder="Search Box">
       <div id="map-canvas" style="position: relative; background-color: rgb(229, 227, 223); overflow: hidden;"></div>
     </div>
   </div>

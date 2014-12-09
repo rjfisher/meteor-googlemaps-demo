@@ -3,98 +3,11 @@ gmaps = {
 
   bounds: {},
 
-  markers: [],
-
-  latLngs: [],
-
-  markerData: [],
-
   locationsHandler: false,
-  itemsHandler: false,
-
-  addMarker: function(marker) {
-    var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
-    var gMarker = new google.maps.Marker({
-      position: gLatLng,
-      map: this.map,
-      title: marker.title,
-      //animation: google.maps.Animation.DROP,
-      icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-    });
-
-    google.maps.event.addListener(gMarker, 'click', function() {
-      if (Session.get('selected') === marker.id) {
-        Session.set('selected', null);
-      } else {
-        Session.set('selected', marker.id);
-      }
-    });
-
-    this.latLngs.push(gLatLng);
-    this.markers.push(gMarker);
-    this.markerData.push(marker);
-    return gMarker;
-  },
-
-  centerMap: function(lat, lng) {
-    if ((!lat) || (!lng))
-      return;
-
-    var latLng = new google.maps.LatLng(lat, lng);
-    this.map.setCenter(latLng);
-  },
-
-  checkMarkers: function() {
-    var _this = this;
-
-    _.each(this.markers, function(marker) {
-      if ((marker.position.lat() > _this.bounds.latMax) ||
-         (marker.position.lat() < _this.bounds.latMin) ||
-         (marker.position.lng() > _this.bounds.lngMax) ||
-         (marker.position.lng() < _this.bounds.lngMin))
-         _this.deleteMarker(marker);
-    });
-  },
-
-  clearMarkers: function() {
-    _.each(this.markers, function(marker) {
-      marker.setMap(null);
-    });
-
-    this.markers = [];
-    this.latLngs = [];
-    this.markerData = [];
-  },
-
-  deleteMarker: function(marker) {
-    var _this = this;
-
-    _.each(this.markers, function(storedMarker, index) {
-      if (storedMarker === marker) {
-        storedMarker.setMap(null);
-        _this.markers.splice(index, 1);
-        _this.latLngs.splice(index, 1);
-        _this.markerData.splice(index, 1);
-        return;
-      }
-    });
-  },
-
-  markerExists: function(key, val) {
-    _.each(this.markerData, function(marker) {
-      if (marker[key] === val) {
-        return true;
-      }
-    });
-
-    return false;
-  },
 
   initialize: function() {
-    var _this = this;
-
     var mapOptions = {
-      zoom: 22,
+      zoom: 18,
       minZoom: 12,
       center: new google.maps.LatLng(40.044171, -76.313411),
       mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -105,35 +18,47 @@ gmaps = {
       mapOptions
     );
 
+    // Set up the search box
+    var input = document.getElementById('pac-input');
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    var searchBox = new google.maps.places.SearchBox(input);
+
+    google.maps.event.addListener(searchBox, 'places_changed', function(){
+      var places = searchBox.getPlaces();
+
+      if (places.length == 0) {
+        toast.error('Location could not be found!');
+        return;
+      }
+
+      if (places.length > 1) {
+        toast.warn('More than one location was found!');
+        return;
+      }
+
+      var place = places[0];
+      map.setCenter(place.geometry.location);
+    });
+
     google.maps.event.addListener(map, 'idle', function() {
       var b = map.getBounds();
-      var bounds = {
-        latMin: b.getSouthWest().lat(),
-        latMax: b.getNorthEast().lat(),
-        lngMin: b.getSouthWest().lng(),
-        lngMax: b.getNorthEast().lng()
-      };
-
-      _this.bounds = bounds;
-
       var queryBounds = {
-        a: {x: bounds.lngMin, y: bounds.latMax},
-        b: {x: bounds.lngMax, y: bounds.latMax},
-        c: {x: bounds.lngMax, y: bounds.latMin},
-        d: {x: bounds.lngMin, y: bounds.latMin}
+        a: {x: b.getSouthWest().lng(), y: b.getNorthEast().lat()},
+        b: {x: b.getNorthEast().lng(), y: b.getNorthEast().lat()},
+        c: {x: b.getNorthEast().lng(), y: b.getSouthWest().lat()},
+        d: {x: b.getSouthWest().lng(), y: b.getSouthWest().lat()}
       };
 
-      var newlocationsHandler = Meteor.subscribe('locations', queryBounds);
-      if (_this.locationsHandler)
-        _this.locationsHandler.stop();
+      var query = {
+        id: null,
+        bounds: queryBounds
+      };
 
-      _this.locationsHandler = newlocationsHandler;
+      var newlocationsHandler = Meteor.subscribe('locations', query);
+      if (this.locationsHandler)
+        this.locationsHandler.stop();
 
-      var newitemsHandler = Meteor.subscribe('items', queryBounds);
-      if (_this.itemsHandler)
-        _this.itemsHandler.stop();
-
-      _this.itemsHandler = newitemsHandler;
+      this.locationsHandler = newlocationsHandler;
     });
 
     if (navigator.geolocation) {

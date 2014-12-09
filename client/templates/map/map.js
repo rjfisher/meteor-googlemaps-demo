@@ -5,8 +5,8 @@ Template.map.rendered = function() {
 
   var liveMarkers = LiveMaps.addMarkersToMap(gmaps.map, [{
 	  cursor: Locations.find(),
-	  onClick: function(marker) {
-	    console.log('This is it!');
+	  onClick: function() {
+      Router.go('/locations/' + this.id);
     },
 	  transform: function(location) {
 	    return {
