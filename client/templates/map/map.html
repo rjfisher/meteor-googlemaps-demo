@@ -7,13 +7,16 @@
           </div>
           <div class="col-sm-1">
             <div class="form-group">
-              <button type="button" class="btn btn-default">
+              {{#if currentUser}}
+              <a class="btn btn-primary" href="{{pathFor 'addLocation'}}">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-              </button>
+              </a>
+              {{/if}}
             </div>
           </div>
         </div>
       </form>
+      <h4>Locations count: {{locationCount}}</h4>
       <input id="pac-input" class="controls" type="text" placeholder="Search Box">
       <div id="map-canvas" style="position: relative; background-color: rgb(229, 227, 223); overflow: hidden;"></div>
     </div>

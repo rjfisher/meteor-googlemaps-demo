@@ -4,4 +4,8 @@
     <h3>{{name}}</h3>
     <p>{{address}}</p>
   </div>
+
+  {{#each items}}
+    {{> item}}
+  {{/each}}
 </template>

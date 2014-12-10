@@ -4,7 +4,6 @@
 # but you can also edit it by hand.
 
 meteor-platform
-insecure
 iron:router
 sacha:spin
 mizzao:bootstrap-3
@@ -12,3 +11,6 @@ chrismbeckett:toastr
 multiply:iron-router-progress
 percolate:momentum-iron-router
 coffeescript
+ian:accounts-ui-bootstrap-3
+accounts-password
+

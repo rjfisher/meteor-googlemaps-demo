@@ -5,10 +5,30 @@ gmaps = {
 
   locationsHandler: false,
 
+  geocodeAddress: function(address, callback) {
+    if(!address)
+      return;
+
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results.count == 0) {
+          toastr.warning('No results found for address');
+          return;
+        }
+
+        callback(results[0].geometry.location, results[0].formatted_address);
+
+      } else {
+        toastr.error('There was an error geocoding the location. ' + status);
+      }
+    });
+  },
+
   initialize: function() {
     var mapOptions = {
       zoom: 18,
-      minZoom: 12,
+      //minZoom: 12,
       center: new google.maps.LatLng(40.044171, -76.313411),
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };

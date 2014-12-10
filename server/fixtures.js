@@ -22,11 +22,13 @@ if (Locations.find({}).count() === 0) {
 
     var id = Locations.insert({
       name: 'Location: ' + i,
+      author: null,
       address: '1234 Fake Street',
       loc: {
         lon: lng,
         lat: lat
       },
+      submitted: new Date(),
       items: items
     });
   }

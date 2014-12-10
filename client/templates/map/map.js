@@ -36,6 +36,10 @@ Template.map.helpers({
     });
 
     return items;
+  },
+
+  locationCount: function() {
+    return Locations.find().count();
   }
 });
 
