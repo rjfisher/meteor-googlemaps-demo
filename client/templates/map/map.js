@@ -20,8 +20,22 @@ Template.map.rendered = function() {
 }
 
 Template.map.helpers({
-  numLocations: function() {
-    return Locations.find({}).count();
+  items: function() {
+    var items = [];
+    var locations = Locations.find().fetch();
+    _.each(locations, function(loc) {
+      items.push.apply(items, loc.items);
+    });
+
+    items.sort(function(a, b) {
+      if (a.rating < b.rating)
+        return 1;
+      if (a.rating > b.rating)
+        return -1;
+      return 0;
+    });
+
+    return items;
   }
 });
 

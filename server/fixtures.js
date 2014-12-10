@@ -12,29 +12,24 @@ if (Locations.find({}).count() === 0) {
       console.log(i + ': (Lat, Lng)' + lat + ', ' + lng + ')');
     }
 
+    var items = [];
+    for (var j = 0; j < 20; j++) {
+      items.push({
+        name: 'Item: ' + i + '-' + j,
+        rating: _.random(0, 5),
+      });
+    }
+
     var id = Locations.insert({
       name: 'Location: ' + i,
       address: '1234 Fake Street',
       loc: {
         lon: lng,
         lat: lat
-      }
+      },
+      items: items
     });
-
-    // Add 20 items to each location
-    for(var j = 0; j < 20; j++) {
-      Items.insert({
-        name: 'Item: ' + i + '-' + j,
-        rating: _.random(0, 5),
-        locationId: id,
-        loc: {
-          lon: lng,
-          lat: lat
-        }
-      });
-    }
   }
 
   Locations._ensureIndex({loc: '2d'});
-  Items._ensureIndex({loc: '2d'});
 }
