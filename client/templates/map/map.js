@@ -17,7 +17,7 @@ Template.map.rendered = function() {
 	    };
 	  }
 	}]);
-}
+};
 
 Template.map.helpers({
   items: function() {
@@ -62,4 +62,4 @@ Template.map.events({
 
 Template.map.destroyed = function() {
   Session.set('map', false);
-}
+};

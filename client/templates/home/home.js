@@ -2,7 +2,7 @@ Template.home.helpers({
   transition: function () {
     return function(from, to, element) {
       return 'left-to-right';
-    }
+    };
   },
 
   numItems: function() {

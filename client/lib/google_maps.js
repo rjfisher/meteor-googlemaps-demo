@@ -12,7 +12,7 @@ gmaps = {
     var geocoder = new google.maps.Geocoder();
     geocoder.geocode({'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
-        if (results.count == 0) {
+        if (results.count === 0) {
           toastr.warning('No results found for address');
           return;
         }
@@ -46,7 +46,7 @@ gmaps = {
     google.maps.event.addListener(searchBox, 'places_changed', function(){
       var places = searchBox.getPlaces();
 
-      if (places.length == 0) {
+      if (places.length === 0) {
         toast.error('Location could not be found!');
         return;
       }
@@ -105,4 +105,4 @@ gmaps = {
       this.map = map;
       Session.set('map', true);
   }
-}
+};

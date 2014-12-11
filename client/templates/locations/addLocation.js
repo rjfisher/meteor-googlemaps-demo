@@ -22,7 +22,7 @@ Template.addLocation.events({
           lat: lat
         },
         items: []
-      }
+      };
 
       // Add to the collection here.
       Meteor.call('locationInsert', location, function(error, result) {
